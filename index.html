@@ -41,8 +41,11 @@ function updateText(){
 	Game.NewCowboy.textContent = "New Cowboy: "+getPrice(500,Game.CowboyAm-1)
 }
 
-function addMoney(am){
+function addMoney(am,speed){
 	Game.Money = Game.Money+am
+	var speedam
+	if(am>0){speedam=am}else if(am<0){speedam=am*-1}
+	if(speed==null|speed==undefined){if(speedam<10){speed=speedam}else{speed=10}}
 	var x = 0
 	var t = am
 	var loop = setInterval(function(){
@@ -51,21 +54,21 @@ function addMoney(am){
 			clearInterval(loop)
 		}
 		else if(am>0){
-			Game.ShowMoney=Game.ShowMoney+1
+			Game.ShowMoney=Game.ShowMoney+am/speed
 			x = x+1
-			if(x>=t){
+			if(x>=speed){
 				clearInterval(loop)
 			}
 		}
 		else if(am<0){
-			Game.ShowMoney=Game.ShowMoney-1
-			x = x-1
-			if(x<=t){
+			Game.ShowMoney=Game.ShowMoney+am/speed
+			x = x+1
+			if(x>=speed){
 				clearInterval(loop)
 			}
 		}
 		updateText()
-	},10)
+	},1)
 }
 
 var cowboySetTop = 100
