@@ -1,0 +1,190 @@
+<html>
+<body>
+<head>
+
+<title>Cowboy Clicker</title>
+
+<label id="GameTitle" style="position: absolute; left: 10px; top: 10px; font-size: 40px; font-family: 'Comic Sans MS'; color: rgb(255,0,255)">Cowboy Clicker</label>
+<label id="MoneyCounter" style="position: absolute; left: 10px; top: 75px;">Money: 0</label>
+<button id="NewCowboy" style="position: absolute; left: 10px; top: 3px">New Cowboy</button>
+
+<script src="functions.js"></script>
+<script>
+
+var Game = []
+Game.Money = 0
+Game.ShowMoney = 0
+Game.MoneyPC = 1
+Game.MoneyPS = 0
+Game.CowboyAm = 0
+Game.Cowboys = []
+Game.Title = document.getElementById("GameTitle")
+Game.MoneyCounter = document.getElementById("MoneyCounter")
+Game.NewCowboy = document.getElementById("NewCowboy")
+
+function getPrice(base,am){
+	return(Math.round(base*Math.pow(1.35,am)))
+}
+
+function updateText(){
+	Game.MoneyCounter.textContent = "Cowboy Points: " + Math.round(Game.ShowMoney)
+	for(i=1;i<Object.keys(Game.Cowboys).length+1;i++){
+		var current = Game.Cowboys["Cowboy"+i]
+		current.CowboyLabel.textContent = "Cowboy "+i
+		current.CowboyStats.textContent = "Click: " + current.PerClick
+		current.UpgradeCowboyClick.textContent = "Upgrade (" + getPrice(current.PerClickBase,current.PerClick-1) + ")"
+		current.UpgradeCowboyClick.style.left = 130+parseInt(current.CowboyStats.clientWidth)
+		current.CowboyPSStats.textContent = "Per Second: " +current.PerSecond
+		current.UpgradeCowboyPS.textContent = "Upgrade (" + getPrice(current.PerSecondBase,current.PerSecond) + ")"
+		current.UpgradeCowboyPS.style.left = 130+parseInt(current.CowboyPSStats.clientWidth)
+	}
+	Game.NewCowboy.textContent = "New Cowboy: "+getPrice(500,Game.CowboyAm-1)
+}
+
+function addMoney(am){
+	Game.Money = Game.Money+am
+	var x = 0
+	var t = am
+	var loop = setInterval(function(){
+		if(am>0&&am<1){
+			Game.ShowMoney=Game.ShowMoney+am
+			clearInterval(loop)
+		}
+		else if(am>0){
+			Game.ShowMoney=Game.ShowMoney+1
+			x = x+1
+			if(x>=t){
+				clearInterval(loop)
+			}
+		}
+		else if(am<0){
+			Game.ShowMoney=Game.ShowMoney-1
+			x = x-1
+			if(x<=t){
+				clearInterval(loop)
+			}
+		}
+		updateText()
+	},10)
+}
+
+var cowboySetTop = 100
+var cowboySetLeft = 0
+var ccba = 0
+function createCowboy(){
+	if(ccba==10){
+		cowboySetTop = cowboySetTop+200
+		cowboySetLeft = 0
+		ccba = 0
+	}
+	Game.Cowboys["Cowboy"+(Game.CowboyAm+1)] = []
+	var CowboySprite = document.createElement("IMG")
+	CowboySprite.src = "textures/cowboy.png"
+	CowboySprite.style.position = "absolute"
+	CowboySprite.style.height = 100
+	CowboySprite.style.width = 100
+	CowboySprite.style.top = (Game.CowboyAm+1)*100
+	CowboySprite.style.left = 10
+	CowboySprite.num = Game.CowboyAm+1
+	CowboySprite.cb = Game.Cowboys["Cowboy"+(Game.CowboyAm+1)]
+	var CowboyLabel = document.createElement("LABEL")
+	CowboyLabel.style.position = "absolute"
+	CowboyLabel.style.height = 18
+	CowboyLabel.style.top = (Game.CowboyAm+1)*100+10
+	CowboyLabel.style.left = 125
+	var CowboyStats = document.createElement("LABEL")
+	CowboyStats.style.position = "absolute"
+	CowboyStats.style.height = 18
+	CowboyStats.style.top = (Game.CowboyAm+1)*100+35
+	CowboyStats.style.left = 125
+	var UpgradeCowboyClick = document.createElement("BUTTON")
+	UpgradeCowboyClick.style.position = "absolute"
+	UpgradeCowboyClick.style.height = 18
+	UpgradeCowboyClick.style.top = (Game.CowboyAm+1)*100+35
+	UpgradeCowboyClick.style.left = 125+parseInt(CowboyStats.clientWidth)
+	UpgradeCowboyClick.cb = Game.Cowboys["Cowboy"+(Game.CowboyAm+1)]
+	var CowboyPSStats = document.createElement("LABEL")
+	CowboyPSStats.style.position = "absolute"
+	CowboyPSStats.style.height = 18
+	CowboyPSStats.style.top = (Game.CowboyAm+1)*100+60
+	CowboyPSStats.style.left = 125
+	var UpgradeCowboyPS = document.createElement("BUTTON")
+	UpgradeCowboyPS.style.position = "absolute"
+	UpgradeCowboyPS.style.height = 18
+	UpgradeCowboyPS.style.top = (Game.CowboyAm+1)*100+60
+	UpgradeCowboyPS.style.left = 125+parseInt(CowboyStats.clientWidth)
+	UpgradeCowboyPS.cb = Game.Cowboys["Cowboy"+(Game.CowboyAm+1)]
+	Game.CowboyAm = Game.CowboyAm+1
+	cowboySetLeft = cowboySetLeft+1
+	ccba = ccba+1
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].CowboySprite = CowboySprite
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].CowboyLabel = CowboyLabel
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].CowboyStats = CowboyStats
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].UpgradeCowboyClick = UpgradeCowboyClick
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].CowboyPSStats = CowboyPSStats
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].UpgradeCowboyPS = UpgradeCowboyPS
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].PerClick = 1
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].PerClickBase = 15
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].PerSecond = 0
+	Game.Cowboys["Cowboy"+(Game.CowboyAm)].PerSecondBase = 50
+	document.body.appendChild(Game.Cowboys["Cowboy"+Game.CowboyAm].CowboySprite)
+	document.body.appendChild(Game.Cowboys["Cowboy"+Game.CowboyAm].CowboyLabel)
+	document.body.appendChild(Game.Cowboys["Cowboy"+Game.CowboyAm].CowboyStats)
+	document.body.appendChild(Game.Cowboys["Cowboy"+Game.CowboyAm].UpgradeCowboyClick)
+	document.body.appendChild(Game.Cowboys["Cowboy"+Game.CowboyAm].CowboyPSStats)
+	document.body.appendChild(Game.Cowboys["Cowboy"+Game.CowboyAm].UpgradeCowboyPS)
+	CowboySprite.onclick = function(){
+		addMoney(CowboySprite.cb.PerClick)
+		updateText()
+	}
+	UpgradeCowboyClick.onclick = function(){
+		var PerClick = UpgradeCowboyClick.cb.PerClick
+		if(Game.Money>=getPrice(UpgradeCowboyClick.cb.PerClickBase,PerClick-1)){
+			addMoney(getPrice(UpgradeCowboyClick.cb.PerClickBase,PerClick-1)*-1)
+			UpgradeCowboyClick.cb.PerClick = UpgradeCowboyClick.cb.PerClick+1
+		}
+		updateText()
+	}
+	UpgradeCowboyPS.onclick = function(){
+		var PerSecond = UpgradeCowboyClick.cb.PerSecond
+		if(Game.Money>=getPrice(UpgradeCowboyClick.cb.PerSecondBase,PerSecond-1)){
+			addMoney(getPrice(UpgradeCowboyClick.cb.PerSecondBase,PerSecond-1)*-1)
+			UpgradeCowboyClick.cb.PerSecond = UpgradeCowboyClick.cb.PerSecond+1
+		}
+		updateText()
+	}
+}
+createCowboy()
+updateText()
+
+Game.NewCowboy.onclick = function(){
+	if(Game.Money>=getPrice(500,Game.CowboyAm-1)){
+		addMoney(getPrice(500,Game.CowboyAm-1)*-1)
+		createCowboy()
+	}
+	updateText()
+}
+
+var perSecondAddTotal = 0
+setInterval(function(){
+	updateText()
+	perSecondAddTotal = 0
+	for(i=1;i<Object.keys(Game.Cowboys).length+1;i++){
+		var current = Game.Cowboys["Cowboy"+i]
+		perSecondAddTotal = perSecondAddTotal+current.PerSecond
+	}
+	if(Game.CowboyAm>=18){
+		Game.Title.textContent = "18 naked cowboys in the showers at ram ranch"
+	}
+	addMoney(perSecondAddTotal/100)
+},1)
+
+var ramranch = new Audio("sounds/ramranch.mp3")
+ramranch.loop = true
+ramranch.play()
+
+</script>
+
+</head>
+</body>
+</html>
