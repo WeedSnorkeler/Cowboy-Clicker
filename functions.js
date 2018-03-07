@@ -1,3 +1,14 @@
+function refreshInventoryGui(){
+  var invtitle = document.getElementById("inventorydivheader").textContent
+  var invmode = Game.InventoryMode
+  var target = Game.InventoryTarget
+  if(InventoryVisible==true){
+    refreshInventory()
+    inventoryGUI(true,invtitle,invmode,target)
+    inventoryGUI(false,invtitle,invmode,target)
+  }
+}
+
 Object.size = function(obj) {
     var size = 0, key;
     for (key in obj) {
@@ -5,6 +16,20 @@ Object.size = function(obj) {
     }
     return size;
 };
+
+function inventoryLength(){
+  var clength = 0
+  for(num=0;num<Object.keys(Game.Inventory).length;num++){
+    if(Game.Inventory[num+1]!=null){
+      clength = clength+1
+    }
+  }
+  return(clength)
+}
+
+function addInventory(item){
+  Game.Inventory[Object.keys(Game.Inventory).length+1] = clone(item)
+}
 
 // function clone(obj) {
 //     // Handle the 3 simple types, and null or undefined
