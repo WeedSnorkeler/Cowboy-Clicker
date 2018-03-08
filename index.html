@@ -53,6 +53,7 @@
 		width: 225;
 		height: 155;
 		visibility: hidden;
+		top: 100;
 	}
 	#shopdivheader{
 		padding: 10px;
@@ -75,8 +76,9 @@
 
 <title>Cowboy Clicker</title>
 
-
-<label id="GameTitle" style="position: absolute; left: 10px; top: 10px; font-size: 40px; font-family: 'Comic Sans MS'; color: rgb(255,0,255)">Cowboy Clicker</label>
+<button id="PlayRamRanch" style="position: absolute; top: 0;">Play / Pause Ram Ranch</button>
+<button id="EraseGame" style="position: absolute; top: 0; left: 155;">Erase Save (refresh page after)</button>
+<label id="GameTitle" style="position: absolute; left: 10px; top: 15px; font-size: 40px; font-family: 'Comic Sans MS'; color: rgb(255,0,255)">Cowboy Clicker</label>
 <label id="MoneyCounter" style="position: absolute; left: 10px; top: 75px;">Money: 0</label>
 <button id="OpenShop" style="position: absolute; left: 10px; top: 75px">Open Shop</button>
 
@@ -173,6 +175,10 @@ document.getElementById("BuyRamRanch").onclick = function(){
 	refreshInventoryGui()
 }
 
+var rr = false
+document.getElementById("PlayRamRanch").onclick = function(){if(rr==false){ramranch.play();rr=true;}else{ramranch.pause();rr=false;}}
+document.getElementById("EraseGame").onclick = function(){eraseSave()}
+
 document.getElementById("inventorydiv").style.left = document.body.clientWidth-parseInt(document.getElementById("inventorydiv").clientWidth)-10
 
 function getPrice(base,am){
@@ -259,6 +265,10 @@ function getInventoryItem(item){
 	if(getItem!=null){
 		return(getItem)
 	}
+}
+
+function addInventory(item){
+  Game.Inventory[Object.keys(Game.Inventory).length+1] = clone(item)
 }
 
 function refreshInventory(){
@@ -530,6 +540,7 @@ function dragElement(elmnt) {
 }
 
 var perSecondAddTotal = 0
+var saveTimer = 0
 setInterval(function(){
 	refreshInventory()
 	updateText()
@@ -542,6 +553,14 @@ setInterval(function(){
 		Game.Title.textContent = "18 naked cowboys in the showers at ram ranch"
 	}
 	addMoney(perSecondAddTotal/100)
+	saveTimer = saveTimer+1
+	if(saveTimer>=5000){
+		save()
+		var textBackup = clone(Game.Title.textContent)
+		Game.Title.textContent = Game.Title.textContent+" (game saved)"
+		setTimeout(function(){Game.Title.textContent=textBackup},1000)
+		saveTimer = 0
+	}
 },1)
 
 var ramranch = new Audio("sounds/ramranch.mp3")
@@ -555,6 +574,8 @@ setInterval(function(){
 	}
 	else{oldSM = Game.ShowMoney}
 },1000)
+
+if(Object.keys(localStorage).length>0){load()}
 
 </script>
 

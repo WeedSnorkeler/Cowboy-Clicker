@@ -77,3 +77,23 @@ Hats.RamRanch.Attack = 3
 Hats.RamRanch.Health = 15
 Hats.RamRanch.Sprite = "textures/RamRanchHat.png"
 Hats.RamRanch.Equippable = true
+
+Hats.ThighHat = []
+Hats.ThighHat.Name = "Thigh Hat"
+Hats.ThighHat.Description = "Some hot ass thighs hnggggggggggg"
+Hats.ThighHat.Click = 20
+Hats.ThighHat.PerSecond = 10
+Hats.ThighHat.Attack = 3
+Hats.ThighHat.Health = 15
+Hats.ThighHat.Sprite = "textures/ThighHat.png"
+Hats.ThighHat.Equippable = true
+
+Hats.AnimeThighHat = []
+Hats.AnimeThighHat.Name = "Anime Thigh Hat"
+Hats.AnimeThighHat.Description = "Oh FUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK"
+Hats.AnimeThighHat.Click = 50
+Hats.AnimeThighHat.PerSecond = 80
+Hats.AnimeThighHat.Attack = 3
+Hats.AnimeThighHat.Health = 15
+Hats.AnimeThighHat.Sprite = "textures/AnimeThighHat.png"
+Hats.AnimeThighHat.Equippable = true
