@@ -2,10 +2,11 @@ function useItem(item,target,invtitle,invmode){
 	if(item.Use!=null&&typeof item.Use=="function"){
 		item.Use()
 	}
-	if(item.Equippable==true){
+	if(item.Equippable==true&&target!=null){
 		if(target.Equipped==null){
 			target.Equipped = clone(item)
 			if(item.num!=null){
+				console.log(item.num)
 				delete Game.Inventory[item.num]
 				// refreshInventory()
 				// inventoryGUI(true,invtitle,invmode,target)
@@ -18,7 +19,6 @@ function useItem(item,target,invtitle,invmode){
 			Game.Inventory[item.num] = teclone
 			target.Equipped = iclone
 		}
-
 	}
 	refreshInventoryGui()
 }
@@ -39,6 +39,7 @@ function useItem(item,target,invtitle,invmode){
 
 var Hats = []
 
+// Equippable
 Hats.CowboyHat = []
 Hats.CowboyHat.Name = "Cowboy Hat"
 Hats.CowboyHat.Description = "Yeeeeeeeeeeeeeeeeeeeeeeeeeeeeee haw."
@@ -82,6 +83,17 @@ Hats.ThighHat.Health = 15
 Hats.ThighHat.Sprite = "textures/ThighHat.png"
 Hats.ThighHat.Equippable = true
 Hats.ThighHat.Price = 2500
+
+Hats.CowGirl = []
+Hats.CowGirl.Name = "Cow Girl"
+Hats.CowGirl.Description = "It's like a cowboy but not a boy. Yeeeeeeeeeeeeeeeeeeeeeeeeeeeeee hawwwwwwwwwwwwwwwwwwww."
+Hats.CowGirl.Click = 25
+Hats.CowGirl.PerSecond = 15
+Hats.CowGirl.Attack = 3
+Hats.CowGirl.Health = 15
+Hats.CowGirl.Sprite = "textures/CowGirl.png"
+Hats.CowGirl.Equippable = true
+Hats.CowGirl.Price = 3000
 
 Hats.AnimeThighs = []
 Hats.AnimeThighs.Name = "Anime Thighs"
@@ -138,13 +150,59 @@ Hats.RamRanch.Sprite = "textures/RamRanchHat.png"
 Hats.RamRanch.Equippable = true
 Hats.RamRanch.Price = 20000
 
-Hats.DoublePenetratorDildo = []
-Hats.DoublePenetratorDildo.Name = "Double Penetrator Dildo"
-Hats.DoublePenetratorDildo.Description = "two dicks at once"
-Hats.DoublePenetratorDildo.Click = 100
-Hats.DoublePenetratorDildo.PerSecond = 200
-Hats.DoublePenetratorDildo.Attack = 3
-Hats.DoublePenetratorDildo.Health = 15
-Hats.DoublePenetratorDildo.Sprite = "textures/DoublePenetratorDildo.png"
-Hats.DoublePenetratorDildo.Equippable = true
-Hats.DoublePenetratorDildo.Price = 30000
+Hats.Waluigi = []
+Hats.Waluigi.Name = "Waluigi"
+Hats.Waluigi.Description = "wah"
+Hats.Waluigi.Click = 100
+Hats.Waluigi.PerSecond = 200
+Hats.Waluigi.Attack = 3
+Hats.Waluigi.Health = 15
+Hats.Waluigi.Sprite = "textures/wah.png"
+Hats.Waluigi.Equippable = true
+Hats.Waluigi.Price = 50000
+
+Hats.Sakurai = []
+Hats.Sakurai.Name = "Masahiro Sakurai"
+Hats.Sakurai.Description = "The one and only. Daddy Sakurai."
+Hats.Sakurai.Click = 300
+Hats.Sakurai.PerSecond = 350
+Hats.Sakurai.Attack = 3
+Hats.Sakurai.Health = 15
+Hats.Sakurai.Sprite = "textures/sakurai.png"
+Hats.Sakurai.Equippable = true
+Hats.Sakurai.Price = 100000
+
+Hats.LetterH = []
+Hats.LetterH.Name = "H"
+Hats.LetterH.Description = "H"
+Hats.LetterH.Click = 500
+Hats.LetterH.PerSecond = 500
+Hats.LetterH.Attack = 3
+Hats.LetterH.Health = 15
+Hats.LetterH.Sprite = "textures/sakurai.png"
+Hats.LetterH.Equippable = true
+Hats.LetterH.Price = 800000
+
+// Not Equippable
+Hats.Test = []
+Hats.Test.Name = "Random Test Item"
+Hats.Test.Description = "If you have save data from version 6 you get this item. When used the item gives you 5000 points."
+Hats.Test.Click = 100
+Hats.Test.PerSecond = 200
+Hats.Test.Attack = 3
+Hats.Test.Health = 15
+Hats.Test.Sprite = "textures/black.png"
+Hats.Test.Equippable = false
+Hats.Test.Use = function(){addMoney(5000);delete Game.Inventory[this.num]}
+
+Hats.UselessItem = []
+Hats.UselessItem.Name = "Useless Item"
+Hats.UselessItem.Description = "Actually useless"
+Hats.UselessItem.Click = 100
+Hats.UselessItem.PerSecond = 200
+Hats.UselessItem.Attack = 3
+Hats.UselessItem.Health = 15
+Hats.UselessItem.Sprite = "textures/black.png"
+Hats.UselessItem.Equippable = false
+Hats.UselessItem.Price = 500
+Hats.UselessItem.Use = function(){alert("beep boop")}
